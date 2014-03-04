@@ -19,7 +19,7 @@ class MyClass(object):
         pass
     
 if __name__ == "__main__":
-    TCP_IP = '127.0.0.1'
+    TCP_IP = '0.0.0.0'
     TCP_PORT = 55555
     BUFFER_SIZE = 20
     MESSAGE = "Hello, World!"
