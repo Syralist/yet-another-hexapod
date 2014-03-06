@@ -6,6 +6,7 @@ Created on 24.02.2014
 
 import socket
 import threading
+import Queue
 
 class MyReceiver(threading.Thread):
     '''
@@ -28,6 +29,8 @@ class MyReceiver(threading.Thread):
         while True:
             try:
                 self.data = self.socket.recv(self.BUFFER_SIZE)
+                if not self.data:
+                    break
             except:
                 print 'Connection closed!'
                 break
@@ -35,40 +38,42 @@ class MyReceiver(threading.Thread):
             self.sender.push(self.data)
             #self.socket.send(self.data)  # echo
         print 'Receiver exits...'
+        #self.queue.join()
         self.sender.Exit()
         
 class MySender(threading.Thread):
-    def __init__(self, ip, port, socket):
+    def __init__(self, ip, port, socket, queue):
         threading.Thread.__init__(self)
         self.ip = ip
         self.port = port
         self.socket = socket
-        self.BUFFER_SIZE = 20
         self.exit = False
         self.hasdata = False
         self.data = ''
+        self.queue = queue
         print 'Sender connected to:', self.ip, self.port
         
     def run(self):
         print 'Sender started...'
         while not self.exit:
-            if self.hasdata:
-                print 'sending...'
+            if not self.queue.empty():
+                print 'things in the queue.'
+                self.data = self.queue.get()
                 self.socket.send(self.data)  # echo
-                self.hasdata = False
+                self.queue.task_done()
         print 'Sender exits...'
                 
     def push(self, data):
-        self.hasdata = True
-        self.data = data
+        self.queue.put(data)
         
     def Exit(self):
+        print 'Try to exit sender...'
         self.exit = True
+        self.queue.join()
     
 if __name__ == "__main__":
     TCP_IP = '0.0.0.0'
     TCP_PORT = 55555
-    BUFFER_SIZE = 20
     MESSAGE = "Hello, World!"
     
     print MESSAGE
@@ -78,7 +83,8 @@ if __name__ == "__main__":
     s.listen(1)
     (conn, (ip, port)) = s.accept()
     
-    newSender = MySender(ip, port, conn)
+    newQueue = Queue.Queue()
+    newSender = MySender(ip, port, conn, newQueue)
     newReceiver = MyReceiver(ip, port, conn, newSender)
     newReceiver.start()
     newSender.start()
