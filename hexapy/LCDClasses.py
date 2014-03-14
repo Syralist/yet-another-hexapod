@@ -23,6 +23,8 @@ class LcdController(threading.Thread):
         self.LCD.message("Hexapod")
         self.running = True
         
+        self.menu = Menu(self)
+        
     def run(self):
         while self.running:
             pass
@@ -37,4 +39,16 @@ class LcdController(threading.Thread):
         self.data2 = data[16:32]
         self.LCD.message(self.data1+"\n"+self.data2)
     
-    
+class Menu(object):
+    def __init__(self, parent):
+        self.mainmenulevel = 0
+        self.submenu1level = 0
+        
+        self.mainmenuitem = 0
+        self.submenu1item = 0
+        
+        self.mainmenu = ["Hexapod"]
+        
+        self.parent = parent
+        
+        self.parent.push(self.mainmenu[self.mainmenuitem])
