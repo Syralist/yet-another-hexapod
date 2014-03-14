@@ -129,15 +129,15 @@ class TcpServer(threading.Thread):
             except:
                 continue
             
-            MyTcpSender = TcpSender(self.distip, self.distport, self.conn)
+            self.MyTcpSender = TcpSender(self.distip, self.distport, self.conn)
             if self.handler == None:
-                self.handler = MyTcpSender
-            MyTcpReceiver = TcpReceiver(self.distip, self.distport, self.conn, self.handler)
-            MyTcpReceiver.start()
-            MyTcpSender.start()
+                self.handler = self.MyTcpSender
+            self.MyTcpReceiver = TcpReceiver(self.distip, self.distport, self.conn, self.handler)
+            self.MyTcpReceiver.start()
+            self.MyTcpSender.start()
             
-            MyTcpSender.join()
-            MyTcpReceiver.join()
+            self.MyTcpSender.join()
+            self.MyTcpReceiver.join()
         
     def Exit(self):
         '''
@@ -147,6 +147,7 @@ class TcpServer(threading.Thread):
         if not self.conn:
             socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect( (self.ip, self.port))
         self.socket.close()
+        self.MyTcpSender.Exit()
         self.exit = True
         
         

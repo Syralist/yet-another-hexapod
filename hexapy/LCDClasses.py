@@ -33,6 +33,8 @@ class LcdController(threading.Thread):
         
     def push(self, data):
         self.LCD.clear()
-        self.LCD.message(data)
+        self.data1 = data[:15]
+        self.data2 = data[16:31]
+        self.LCD.message(self.data1+"\n"+self.data2)
     
     
