@@ -7,6 +7,7 @@ Created on 24.02.2014
 #import socket
 
 from TcpClasses import TcpServer
+from Adafruit/Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
     
 if __name__ == "__main__":
     
