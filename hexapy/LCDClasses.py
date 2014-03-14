@@ -5,6 +5,7 @@ Created on 14.03.2014
 '''
 import threading
 import time
+import netifaces
 from Adafruit.Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 
 class LcdController(threading.Thread):
@@ -26,6 +27,7 @@ class LcdController(threading.Thread):
         
         self.menu = Menu(self)
         self.menu.start()
+        
         
     def run(self):
         while self.running:
@@ -71,6 +73,8 @@ class Menu(threading.Thread):
         self.timestamp = int(time.time())
         self.timechanged = False
         
+        print netifaces.interfaces()
+        
     def run(self):
         while self.running:
             if int(time.time()) > self.timestamp:
@@ -102,4 +106,7 @@ class Menu(threading.Thread):
         pass
     
     def right(self):
+        pass
+    
+    def select(self):
         pass
