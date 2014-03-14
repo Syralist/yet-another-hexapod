@@ -7,6 +7,7 @@ Created on 10.03.2014
 import threading
 import Queue
 import socket
+import time
 
 class TcpReceiver(threading.Thread):
     '''
@@ -147,6 +148,7 @@ class TcpServer(threading.Thread):
         if not self.conn:
             socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect( (self.ip, self.port))
         self.socket.close()
+        time.sleep(1)
         self.MyTcpSender.Exit()
         self.exit = True
         

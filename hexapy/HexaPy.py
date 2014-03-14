@@ -17,7 +17,7 @@ if __name__ == "__main__":
     
     MyLcd = LcdController()
     MyLcd.start()
-    MyLcd.push(MESSAGE)
+    #MyLcd.push(MESSAGE)
     
     #bind to all addresses and listen on port 55555
     TCP_IP = '0.0.0.0'
