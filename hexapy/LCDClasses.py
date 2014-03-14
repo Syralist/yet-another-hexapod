@@ -16,6 +16,7 @@ class LcdController(threading.Thread):
         '''
         Constructor
         '''
+        threading.Thread.__init__(self)
         self.LCD = Adafruit_CharLCDPlate()
         self.LCD.clear()
         self.LCD.backlight(self.LCD.ON)

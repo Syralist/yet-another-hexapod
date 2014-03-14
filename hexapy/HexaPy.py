@@ -23,7 +23,7 @@ if __name__ == "__main__":
     TCP_IP = '0.0.0.0'
     TCP_PORT = 55555
     
-    MyTcpServer = TcpServer(TCP_IP, TCP_PORT)
+    MyTcpServer = TcpServer(TCP_IP, TCP_PORT, MyLcd)
     MyTcpServer.start()
 
     i = raw_input('Any key to exit...')
