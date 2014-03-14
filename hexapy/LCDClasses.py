@@ -51,16 +51,12 @@ class LcdController(threading.Thread):
 class Menu(threading.Thread):
     def __init__(self, parent):
         threading.Thread.__init__(self)
-        self.mainmenulevel = 0
-        self.submenu1level = 0
+        self.menuitem = 0
         
-        self.mainmenuitem = 0
-        self.submenu1item = 0
-        
-        self.mainmenu = ["Hexapod Mainmenu", "IP Adress"]
+        self.menu = ["Hexapod Mainmenu", "IP Adress"]
         
         self.parent = parent
-        self.parent.push(self.mainmenu[self.mainmenuitem])
+        self.parent.push(self.menu[self.menuitem])
         
         self.running = True
         self.timestamp = int(time.time())
@@ -73,18 +69,25 @@ class Menu(threading.Thread):
                 self.timechanged = True
             else:
                 self.timechanged = False
-            if self.mainmenulevel == 0 and self.mainmenuitem == 0:
-                if self.timechanged:
-                    self.parent.push2(self.mainmenu[self.mainmenuitem],time.strftime("%H:%M:%S"))
+                
+            if self.timechanged:
+                if self.menuitem == 0:
+                    self.parent.push2(self.menu[self.menuitem],time.strftime("%H:%M:%S"))
+                elif self.menuitem == 1:
+                    self.parent.push(self.menu[self.menuitem])
         
     def Exit(self):
         self.running = False
 
     def up(self):
-        pass
+        self.menuitem -= 1
+        if self.menuitem < 0:
+            self.menuitem = len(self.menu)-1
     
     def down(self):
-        pass
+        self.menuitem += 1
+        if self.menuitem > len(self.menu)-1:
+            self.menuitem = 0
     
     def left(self):
         pass
