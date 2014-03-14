@@ -29,7 +29,16 @@ class LcdController(threading.Thread):
         
     def run(self):
         while self.running:
-            pass
+            if self.LCD.buttonPressed(self.LCD.LEFT):
+                self.menu.left()
+            if self.LCD.buttonPressed(self.LCD.RIGHT):
+                self.menu.right()
+            if self.LCD.buttonPressed(self.LCD.UP):
+                self.menu.up()
+            if self.LCD.buttonPressed(self.LCD.DOWN):
+                self.menu.down()
+            if self.LCD.buttonPressed(self.LCD.SELECT):
+                self.menu.select()
     
     def Exit(self):
         self.LCD.backlight(self.LCD.OFF)
