@@ -5,8 +5,9 @@ Created on 14.03.2014
 '''
 import threading
 import time
-import netifaces
+
 from Adafruit.Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
+from SysInfo import SysInfo
 
 class LcdController(threading.Thread):
     '''
@@ -64,7 +65,7 @@ class Menu(threading.Thread):
         threading.Thread.__init__(self)
         self.menuitem = 0
         
-        self.menu = ["Hexapod Mainmenu", "IP Adress"]
+        self.menu = ["Hexapod Mainmenu", "IP Adress", "CPU Load"]
         
         self.parent = parent
         self.parent.push(self.menu[self.menuitem])
@@ -73,10 +74,8 @@ class Menu(threading.Thread):
         self.timestamp = int(time.time())
         self.timechanged = False
         
-        try:
-            self.wlanip = netifaces.ifaddresses("wlan0")[2][0]['addr']
-        except:
-            self.wlanip = "0.0.0.0"
+        self.sysinfo = SysInfo()
+        self.sysinfo.updateIP()
         
     def run(self):
         while self.running:
@@ -90,7 +89,9 @@ class Menu(threading.Thread):
                 if self.menuitem == 0:
                     self.parent.push2(self.menu[self.menuitem],time.strftime("%H:%M:%S"))
                 elif self.menuitem == 1:
-                    self.parent.push2(self.menu[self.menuitem],self.wlanip)
+                    self.parent.push2(self.menu[self.menuitem],self.sysinfo.getIP())
+                elif self.menuitem == 2:
+                    self.parent.push2(self.menu[self.menuitem],self.sysinfo.getCPUuse())
         
     def Exit(self):
         self.running = False
