@@ -57,4 +57,7 @@ class ServoHandler(object):
             self.angle = float(data)
         except:
             self.angle = 0.0
-        self.Servos[0].setAngle(self.angle) 
+        self.Servos[0].setAngle(self.angle)
+        
+    def Exit(self):
+        pass
