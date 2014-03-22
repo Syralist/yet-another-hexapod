@@ -47,4 +47,14 @@ class ServoDriver(object):
         print self.tickOn
         self.pwm.setPWM(self.channel, 0, int(self.tickOn))
         
-
+class ServoHandler(object):
+    def __init__(self):
+        self.Servos = [ServoDriver(0x40,0)]
+        
+    def push(self, data):
+        self.angle = 0.0
+        try:
+            self.angle = float(data)
+        except:
+            self.angle = 0.0
+        self.Servos[0].setAngle(self.angle) 
