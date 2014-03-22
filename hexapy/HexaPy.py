@@ -8,6 +8,7 @@ Created on 24.02.2014
 
 from TcpClasses import TcpServer
 from LCDClasses import LcdController
+from ServoClasses import ServoDriver
 
     
 if __name__ == "__main__":
@@ -26,6 +27,8 @@ if __name__ == "__main__":
     MyTcpServer = TcpServer(TCP_IP, TCP_PORT, MyLcd)
     MyTcpServer.start()
 
+    MyServoDriver = ServoDriver(0x40, 0)
+    MyServoDriver.setAngle(0)
     i = raw_input('Any key to exit...')
     
     MyTcpServer.Exit()
