@@ -29,8 +29,11 @@ class SysInfo(object):
     def getIP(self):
         return self.wlanip
     
-    def getCPUuse(self):
-        return(str(os.popen("top -n1 | awk '/Cpu\(s\):/ {print $2}'").readline().strip(\
-                                                                                       )))
+    def getCPUinfo(self):
+        load = str(os.popen("top -n1 | awk '/Cpu\(s\):/ {print $2}'").readline().strip(\
+                                                                                       ))
+        temp = str(os.popen('vcgencmd measure_temp').readline().replace("temp=","").strip(\
+                                                                                       ))
+        return(load + "% " + temp)
     
     

@@ -65,7 +65,7 @@ class Menu(threading.Thread):
         threading.Thread.__init__(self)
         self.menuitem = 0
         
-        self.menu = ["Hexapod Mainmenu", "IP Adress", "CPU Load"]
+        self.menu = ["Hexapod Mainmenu", "IP Adress", "CPU Info"]
         
         self.parent = parent
         self.parent.push(self.menu[self.menuitem])
@@ -91,7 +91,7 @@ class Menu(threading.Thread):
                 elif self.menuitem == 1:
                     self.parent.push2(self.menu[self.menuitem],self.sysinfo.getIP())
                 elif self.menuitem == 2:
-                    self.parent.push2(self.menu[self.menuitem],self.sysinfo.getCPUuse())
+                    self.parent.push2(self.menu[self.menuitem],self.sysinfo.getCPUinfo())
         
     def Exit(self):
         self.running = False
