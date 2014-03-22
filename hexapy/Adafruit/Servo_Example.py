@@ -24,13 +24,39 @@ def setServoPulse(channel, pulse):
   pulse /= pulseLength
   pwm.setPWM(channel, 0, pulse)
 
-pwm.setPWMFreq(60)                        # Set frequency to 60 Hz
+freq = 60
+pwm.setPWMFreq(freq)                        # Set frequency to 60 Hz
+cycle = 1.0/float(freq)
+timepertick = cycle/4096
+m = -0.0125
+b = 1.5
+print timepertick
 while (True):
   # Change speed of continuous servo on channel O
-  pwm.setPWM(0, 0, servoMin)
-  time.sleep(1)
-  pwm.setPWM(0, 0, servoMax)
-  time.sleep(1)
+  a = float(raw_input("Angle -40 to 40: "))
+  if a>40.0:
+    a=40.0
+  elif a<-40.0:
+    a=-40.0
+  print a
+  ms = a*m+b
+  if ms>2.0:
+    ms=2.0
+  elif ms<1.0:
+    ms=1.0
+  s = ms/1000
+  print s
+  ticks = int(s/timepertick)
+  print ticks
+  pwm.setPWM(0, 0, ticks)
+  #print 1
+  #time.sleep(1)
+  #setServoPulse(0, 50)
+  #print 50
+  #time.sleep(1)
+  #setServoPulse(0, 100)
+  #print 100
+  #time.sleep(1)
 
 
 
