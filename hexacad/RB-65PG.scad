@@ -1,4 +1,4 @@
-//AMAX G5515AM servo
+//Robotbase RB-65PG servo
 
 module fitting(fwidth, flength, fheight)
 {
@@ -14,7 +14,7 @@ module fitting(fwidth, flength, fheight)
 	}
 }
 
-module G5515AM()
+module rb65pg()
 {
 	//main body
 	swidth=19.7;
@@ -42,5 +42,5 @@ module G5515AM()
 	cylinder(h=adiam,r=adiam/2);
 	
 }
-$fn=50;
-G5515AM();
+//$fn=50;
+rb65pg();
