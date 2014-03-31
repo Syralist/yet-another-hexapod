@@ -1,4 +1,5 @@
 use <baseplate.scad>;
+use <RB-65PG.scad>;
 
 module baseplatethird()
 {
@@ -32,14 +33,6 @@ module baseplatethird()
 //	translate([0,200,0])
 //	baseplatethirdouter();
 //}
-
-module baseplatefromparts(){
-	baseplatethirdmiddle();
-	translate([0,100,0])
-	baseplatethirdmiddle();
-	translate([0,200,0])
-	baseplatethirdmiddle();
-}
 
 module baseplatethirdmiddle()
 {
@@ -83,7 +76,58 @@ module baseplatethirdouter()
 	}
 }
 
-baseplatefromparts();
+module compartment(complength)
+{
+	compheight = 26.5;
+	
+	wallwidth = 5;
+	wallwidth2 = 7;
+	
+	ypos1 = 0;
+	translate([0,ypos1,0])
+		cube([complength,wallwidth,compheight]);
+	ypos2 = ypos1+20+wallwidth;
+	translate([0,ypos2,0])
+		cube([complength,wallwidth,compheight]);
+	translate([0,ypos1,0])
+		cube([wallwidth2,20+2*wallwidth,compheight]);
+}
+
+module baseplatethirdbottom()
+{
+	complength = 48;
+	ypos1 = 100/2-10-5;
+	plateheight = 5;
+	union()
+	{
+		translate([-complength+10,ypos1,plateheight])
+			compartment(complength);
+		translate([-190+complength,ypos1+20+10,plateheight])
+			rotate([0,0,180])
+				compartment(complength);
+		baseplatethirdmiddle();
+	}
+}
+
+module baseplatefromparts(){
+	baseplatethirdmiddle();
+	translate([0,100,0])
+		baseplatethirdmiddle();
+	translate([0,200,0])
+		baseplatethirdmiddle();
+}
+
+module baseplatefrompartsbottom(){
+	baseplatethirdbottom();
+	translate([0,100,0])
+		baseplatethirdbottom();
+	translate([0,200,0])
+		baseplatethirdbottom();
+}
+
+//baseplatefromparts();
 //baseplatethirdouter();
 //baseplatethirdmiddle();
+translate([-30,60,5])rotate([0,0,-90])rb65pg();
+baseplatethirdbottom();
 
