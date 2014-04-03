@@ -37,5 +37,13 @@ module coxa()
 	}
 }
 
-coxa();
+module femur()
+{
+}
+
+
+//coxa();
 //translate([80-8,-20,0])rotate([0,90,0])servo_u_holder();
+
+femur();
+
