@@ -1,6 +1,6 @@
 use <small-parts.scad>
 
-module shoulder()
+module coxa()
 {
 	width = 40;
 	length = 80;
@@ -17,6 +17,8 @@ module shoulder()
 		union()
 		{
 			cylinder(r=width/2,h=wall);
+			translate([length,0,0])
+				cylinder(r=width/2,h=wall);
 			translate([0,-width/2,0])
 				cube([length, width, wall]);
 		}
@@ -35,5 +37,5 @@ module shoulder()
 	}
 }
 
-shoulder();
+coxa();
 //translate([80-8,-20,0])rotate([0,90,0])servo_u_holder();
