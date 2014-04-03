@@ -81,7 +81,7 @@ module compartment(complength)
 	compheight = 26.5;
 	
 	wallwidth = 5;
-	wallwidth2 = 7;
+	wallwidth2 = 8;
 	
 	ypos1 = 0;
 	translate([0,ypos1,0])
