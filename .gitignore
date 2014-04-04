@@ -37,3 +37,9 @@ nosetests.xml
 
 #docs
 doc
+
+#intermediate files
+.png
+.stl
+.dxf
+.svg
