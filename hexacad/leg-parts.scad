@@ -38,7 +38,7 @@ module coxa()
 	}
 }
 
-module femurconture()
+module legconture()
 {
 	wall = 5;
 	difference()
@@ -73,7 +73,7 @@ module femur()
 	heightwheel = 2.5;
 	difference()
 	{
-		femurconture();
+		legconture();
 		translate([-16,radiuswheel+5,0])
 			cylinder(r=radiusaxle,h=wall);
 		translate([-16,radiuswheel+5,heightwheel])
@@ -85,9 +85,24 @@ module femur()
 	}
 }
 
+module tibia()
+{
+	wall = 5;
+	servowidth = 20;
+	servolength = 41;
+	difference()
+	{
+		legconture();
+		translate([-11-servowidth/2,120-servolength-12,-2])
+			rotate([0,0,7])
+				cube([servowidth, servolength, wall+4]);
+	}
+}
+
 
 //coxa();
 //translate([80-8,-20,0])rotate([0,90,0])servo_u_holder();
-projection(cut=true)
-femur();
+//projection(cut=true)
+//femur();
+tibia();
 
