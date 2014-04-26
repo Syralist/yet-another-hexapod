@@ -49,15 +49,19 @@ class ServoDriver(object):
         
 class ServoHandler(object):
     def __init__(self):
-        self.Servos = [ServoDriver(0x40,0)]
+        self.Servos = {'CoxaL2': ServoDriver(0x40,0), 
+                       'FemurL2': ServoDriver(0x40,1),
+                       'TibiaL2': ServoDriver(0x40,2)}
         
     def push(self, data):
         self.angle = 0.0
+        self.joint = ""
         try:
-            self.angle = float(data)
+            self.joint = data.split()[0]
+            self.angle = float(data.split()[1])
+            self.Servos[self.joint].setAngle(self.angle)
         except:
-            self.angle = 0.0
-        self.Servos[0].setAngle(self.angle)
+            pass
         
     def Exit(self):
         pass
