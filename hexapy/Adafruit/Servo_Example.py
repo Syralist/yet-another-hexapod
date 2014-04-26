@@ -24,7 +24,7 @@ def setServoPulse(channel, pulse):
   pulse /= pulseLength
   pwm.setPWM(channel, 0, pulse)
 
-freq = 60
+freq = 120
 pwm.setPWMFreq(freq)                        # Set frequency to 60 Hz
 cycle = 1.0/float(freq)
 timepertick = cycle/4096
@@ -48,7 +48,7 @@ while (True):
   print s
   ticks = int(s/timepertick)
   print ticks
-  pwm.setPWM(0, 0, ticks)
+  pwm.setPWM(2, 0, ticks)
   #print 1
   #time.sleep(1)
   #setServoPulse(0, 50)
