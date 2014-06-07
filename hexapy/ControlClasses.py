@@ -25,7 +25,7 @@ class MessageHandler(object):
             self.Servos = self.ServoHandler.getJoints()
             self.Joint = ""
             self.Angle = 0.0
-            for Part in self.Messageparts:
+            for Part in self.MessageParts:
                 if Part in self.Servos:
                     self.Joint = Part
                 elif self.Joint != "":
