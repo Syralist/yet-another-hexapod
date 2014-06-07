@@ -113,7 +113,10 @@ class MoveJoint(threading.Thread):
                 pass
     
     def InitMovement(self):
+        print self.doUpdate
         if not self.doUpdate:
+            print self.Servos
+            print self.MovementSetup
             for servo, movement in self.Servos, self.MovementSetup:
                 print servo
                 print movement
