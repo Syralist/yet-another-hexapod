@@ -64,7 +64,7 @@ class MoveJoint(threading.Thread):
                 self.startTime = time.time()
                 self.UpdateJoints()
                 self.endTime = time.time()-self.startTime
-                time.sleep(1.0-self.endTime)
+                time.sleep(0.1-self.endTime)
         
     def Exit(self):
         self.running = False
