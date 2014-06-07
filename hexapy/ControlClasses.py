@@ -17,7 +17,7 @@ class MessageHandler(object):
         self.ServoHandler = ServoHandler
     
     def push(self, data):
-        self.DirectPush = True
+        self.DirectPush = False
         if self.DirectPush:
             self.ServoHandler.push(data)
         else:
