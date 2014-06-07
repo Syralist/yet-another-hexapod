@@ -65,5 +65,14 @@ class ServoHandler(object):
         except:
             pass
         
+    def getJoints(self):
+        return self.Servos.keys()
+        
+    def setAngle(self, joint, angle):
+        try:
+            self.Servos[joint].setAngle(angle)
+        except:
+            pass
+        
     def Exit(self):
         pass
