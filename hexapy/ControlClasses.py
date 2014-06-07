@@ -4,7 +4,7 @@ Created on 07.06.2014
 @author: Thomas
 '''
 import threading
-import time, sleep
+import time
 
 class MessageHandler(object):
     '''
@@ -61,10 +61,10 @@ class MoveJoint(threading.Thread):
     def run(self):
         while self.running:
             if self.doUpdate:
-                self.startTime = time()
+                self.startTime = time.time()
                 self.UpdateJoints()
-                self.endTime = time()-self.startTime
-                sleep(1.0-self.endTime)
+                self.endTime = time.time()-self.startTime
+                time.sleep(1.0-self.endTime)
         
     def Exit(self):
         self.running = False
