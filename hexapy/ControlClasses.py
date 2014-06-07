@@ -115,7 +115,7 @@ class MoveJoint(threading.Thread):
     def InitMovement(self):
         if not self.doUpdate:
             for servo, movement in map(None, self.Servos, self.MovementSetup):
-                print servo
+                #print servo
                 print movement
                 if movement[3]:
                     self.MovementStatus[servo][0] = movement[0]
