@@ -45,6 +45,7 @@ class MessageHandler(object):
                         self.Angle = 0.0
                         self.Joint = ""
                 elif self.Parts[0] == "moveJoint":
+                    print self.Parts[1]
                     if self.Parts[1] == "set":
                         if self.Parts[2] in self.Servos:
                             try:
