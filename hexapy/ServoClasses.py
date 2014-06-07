@@ -52,9 +52,10 @@ class ServoHandler(object):
         self.Servos = {'CoxaL2': ServoDriver(0x40,0), 
                        'FemurL2': ServoDriver(0x40,1),
                        'TibiaL2': ServoDriver(0x40,2)}
-        self.Servos['CoxaL2'].setAngle(0)
-        self.Servos['FemurL2'].setAngle(0)
-        self.Servos['TibiaL2'].setAngle(0)
+        for servo in self.Servos:
+            self.Servos[servo].setAngle(0)
+        #self.Servos['FemurL2'].setAngle(0)
+        #self.Servos['TibiaL2'].setAngle(0)
         
     def push(self, data):
         self.angle = 0.0
