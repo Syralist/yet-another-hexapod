@@ -84,11 +84,8 @@ class MoveJoint(threading.Thread):
         
         self.ServoHandler = ServoHandler
         self.Servos = self.ServoHandler.getJoints()
-        self.Movements = {k: [0.0, 0.0, False, False] for k in self.Servos}
-        #self.Movements = dict.fromkeys(self.Servos, None) #Start, End, Repeat, Move
-        #for movement in self.Movements:
-        #    movement.append([0.0, 0.0, False, False])
-        #[0, 0, False, False]
+        self.MovementSetup = {k: [0.0, 0.0, False, False] for k in self.Servos} #Start, End, Repeat, Move
+        self.MovementStatus = {k: [0.0, 0.0] for k in self.Servos} #Position, Direction
     
     def run(self):
         while self.running:
@@ -107,20 +104,26 @@ class MoveJoint(threading.Thread):
     def SetMovement(self, Joint, Start, End, Repeat, Move):
         if not self.doUpdate:
             try:
-                self.Movements[Joint][0] = Start
-                self.Movements[Joint][1] = End
-                self.Movements[Joint][2] = Repeat
-                self.Movements[Joint][3] = Move
+                self.MovementSetup[Joint][0] = Start
+                self.MovementSetup[Joint][1] = End
+                self.MovementSetup[Joint][2] = Repeat
+                self.MovementSetup[Joint][3] = Move
             except:
                 pass
     
     def InitMovement(self):
         if not self.doUpdate:
-            for servo, movement in self.Servos, self.Movements:
+            for servo, movement in self.Servos, self.MovementSetup:
                 if movement[3]:
+                    self.MovementStatus[servo][0] = movement[0]
+                    if movement[0] < movement[1]:
+                        self.MovementStatus[servo][1] = 1.0
+                    else:
+                        self.MovementStatus[servo][1] = -1.0
                     self.ServoHandler.setAngle(servo, movement[0])
                 
         
     def UpdateJoints(self):
         print self.startTime
-        print self.Movements
+        print self.MovementSetup
+        print self.MovementStatus
