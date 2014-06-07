@@ -19,6 +19,8 @@ class MessageHandler(object):
         self.ServoHandler = ServoHandler
         self.Mover = MoveJoint()
         self.Mover.start()
+        
+        self.Dummy = False
     
     def push(self, data):
         self.DirectPush = False
@@ -30,7 +32,6 @@ class MessageHandler(object):
             self.Joint = ""
             self.Angle = 0.0
             self.Message = ""
-            self.Dummy = False
             for Message in self.Messages:
                 self.Parts = Message.split()
                 if self.Parts[0] == "setJoint":
