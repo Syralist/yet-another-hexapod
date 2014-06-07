@@ -28,7 +28,7 @@ class MessageHandler(object):
             self.Message = ""
             for Message in self.Messages:
                 self.Parts = Message.split()
-                if self.Parts[0] = "setJoint":
+                if self.Parts[0] == "setJoint":
                     if self.Parts[1] in self.Servos:
                         try:
                             self.Joint = self.Parts[1]
