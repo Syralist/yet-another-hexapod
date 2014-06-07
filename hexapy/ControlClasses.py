@@ -84,7 +84,9 @@ class MoveJoint(threading.Thread):
         
         self.ServoHandler = ServoHandler
         self.Servos = self.ServoHandler.getJoints()
-        self.Movements = dict.fromkeys(self.Servos, [0, 0, False, False]) #Start, End, Repeat, Move
+        self.Movements = dict.fromkeys(self.Servos, None) #Start, End, Repeat, Move
+        for movement in self.Movements:
+            movement = [0, 0, False, False]
     
     def run(self):
         while self.running:
