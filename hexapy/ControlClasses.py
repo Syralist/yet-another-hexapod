@@ -136,6 +136,7 @@ class MoveJoint(threading.Thread):
             if self.MovementSetup[servo][3]:
                 print 'Move = True'
                 self.MovementStatus[servo][0] += self.MovementStatus[servo][1]
+                self.ServoHandler.setAngle(servo,self.MovementStatus[servo][0])
                 if (self.MovementSetup[servo][0] < self.MovementSetup[servo][1]):
                     print 'Start < End'
                     if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][1]) 
