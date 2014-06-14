@@ -119,17 +119,37 @@ class MoveJoint(threading.Thread):
                 print movement
                 if movement[3]:
                     self.MovementStatus[servo][0] = movement[0]
+                    self.MovementStatus[servo][1] = 1.0
                     if movement[0] < movement[1]:
-                        self.MovementStatus[servo][1] = 1.0
+                        self.MovementStatus[servo][1] *= 1.0
                     else:
-                        self.MovementStatus[servo][1] = -1.0
+                        self.MovementStatus[servo][1] *= -1.0
                     self.ServoHandler.setAngle(servo, movement[0])
                 
         
     def UpdateJoints(self):
         print self.startTime
-        print self.MovementSetup
-        print self.MovementStatus
+        print self.MovementSetup #Start, End, Repeat, Move
+        print self.MovementStatus #Position, Direction/Increment
         for servo in self.Servos:
-            self.position = self.MovementStatus[servo][0]
-            self.direction = self.MovementStatus[servo][1]
+            if self.MovementSetup[servo][3]:
+                #Move = True
+                self.MovementStatus[servo][0] += self.MovementStatus[servo][1]
+                if (self.MovementSetup[servo][0] < self.MovementSetup[servo][1]):
+                    #Start < End
+                    if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][1]) 
+                        or
+                        (self.MovementStatus[servo][0] <= self.MovementSetup[servo][0]))
+                        and self.MovementSetup[servo][2]):
+                        #Position >= End && Repeat
+                        #Position <= Start && Repeat
+                        self.MovementStatus[servo][1] *= -1.0
+                else:
+                    #Start > End
+                    if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][0]) 
+                        or
+                        (self.MovementStatus[servo][0] <= self.MovementSetup[servo][1]))
+                        and self.MovementSetup[servo][2]):
+                        #Position >= End && Repeat
+                        #Position <= Start && Repeat
+                        self.MovementStatus[servo][1] *= -1.0
