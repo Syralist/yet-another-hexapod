@@ -131,5 +131,5 @@ class MoveJoint(threading.Thread):
         print self.MovementSetup
         print self.MovementStatus
         for servo in self.Servos:
-            self.position = self.MovementStatus[0]
-            self.direction = self.MovementStatus[1]
+            self.position = self.MovementStatus[servo][0]
+            self.direction = self.MovementStatus[servo][1]
