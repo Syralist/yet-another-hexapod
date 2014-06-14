@@ -93,8 +93,12 @@ class MoveJoint(threading.Thread):
             if self.doUpdate:
                 self.startTime = time.time()
                 self.UpdateJoints()
-                self.endTime = time.time()-self.startTime
-                time.sleep(1.0-self.endTime)
+                self.elapsedTime = time.time()-self.startTime
+                self.sleepTime = 0.10-self.elapsedTime
+                print self.elapsedTime
+                if self.sleepTime < 0.0:
+                    self.sleepTime = 0.0
+                time.sleep(self.sleepTime)
         
     def Exit(self):
         self.running = False
@@ -119,6 +123,7 @@ class MoveJoint(threading.Thread):
                 print movement
                 if movement[3]:
                     self.MovementStatus[servo][0] = movement[0]
+                    # set increment
                     self.MovementStatus[servo][1] = 1.0
                     if movement[0] < movement[1]:
                         self.MovementStatus[servo][1] *= 1.0
@@ -128,30 +133,30 @@ class MoveJoint(threading.Thread):
                 
         
     def UpdateJoints(self):
-        print self.startTime
-        print self.MovementSetup #Start, End, Repeat, Move
-        print self.MovementStatus #Position, Direction/Increment
+        #print self.startTime
+        #print self.MovementSetup #Start, End, Repeat, Move
+        #print self.MovementStatus #Position, Direction/Increment
         for servo in self.Servos:
-            print servo
+            #print servo
             if self.MovementSetup[servo][3]:
-                print 'Move = True'
+                #print 'Move = True'
                 self.MovementStatus[servo][0] += self.MovementStatus[servo][1]
                 self.ServoHandler.setAngle(servo,self.MovementStatus[servo][0])
                 if (self.MovementSetup[servo][0] < self.MovementSetup[servo][1]):
-                    print 'Start < End'
+                    #print 'Start < End'
                     if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][1]) 
                         or
                         (self.MovementStatus[servo][0] <= self.MovementSetup[servo][0]))
                         and self.MovementSetup[servo][2]):
-                        print 'Position >= End && Repeat'
-                        print '#Position <= Start && Repeat'
+                        #print 'Position >= End && Repeat'
+                        #print '#Position <= Start && Repeat'
                         self.MovementStatus[servo][1] *= -1.0
                 else:
-                    print 'Start > End'
+                    #print 'Start > End'
                     if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][0]) 
                         or
                         (self.MovementStatus[servo][0] <= self.MovementSetup[servo][1]))
                         and self.MovementSetup[servo][2]):
-                        print 'Position >= End && Repeat'
-                        print 'Position <= Start && Repeat'
+                        #print 'Position >= End && Repeat'
+                        #print 'Position <= Start && Repeat'
                         self.MovementStatus[servo][1] *= -1.0

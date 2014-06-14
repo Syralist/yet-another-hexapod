@@ -32,19 +32,19 @@ class ServoDriver(object):
     
     def setAngle(self, angle):
         self.angle = angle
-        print self.angle
+        #print self.angle
         if self.angle > self.maxangle:
             self.angle = self.maxangle
         elif self.angle < self.minangle:
             self.angle = self.minangle
         self.milliseconds = self.angle * self.m + self.b
-        print self.milliseconds
+        #print self.milliseconds
         if self.milliseconds > self.maxmilliseconds:
             self.milliseconds = self.maxmilliseconds
         elif self.milliseconds < self.minmilliseconds:
             self.milliseconds = self.minmilliseconds
         self.tickOn = (self.milliseconds/1000.0)/self.timepertick
-        print self.tickOn
+        #print self.tickOn
         self.pwm.setPWM(self.channel, 0, int(self.tickOn))
         
 class ServoHandler(object):
