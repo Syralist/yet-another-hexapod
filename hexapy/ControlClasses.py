@@ -132,24 +132,25 @@ class MoveJoint(threading.Thread):
         print self.MovementSetup #Start, End, Repeat, Move
         print self.MovementStatus #Position, Direction/Increment
         for servo in self.Servos:
+            print servo
             if self.MovementSetup[servo][3]:
-                #Move = True
+                print 'Move = True'
                 self.MovementStatus[servo][0] += self.MovementStatus[servo][1]
                 if (self.MovementSetup[servo][0] < self.MovementSetup[servo][1]):
-                    #Start < End
+                    print 'Start < End'
                     if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][1]) 
                         or
                         (self.MovementStatus[servo][0] <= self.MovementSetup[servo][0]))
                         and self.MovementSetup[servo][2]):
-                        #Position >= End && Repeat
-                        #Position <= Start && Repeat
+                        print 'Position >= End && Repeat'
+                        print '#Position <= Start && Repeat'
                         self.MovementStatus[servo][1] *= -1.0
                 else:
-                    #Start > End
+                    print 'Start > End'
                     if (((self.MovementStatus[servo][0] >= self.MovementSetup[servo][0]) 
                         or
                         (self.MovementStatus[servo][0] <= self.MovementSetup[servo][1]))
                         and self.MovementSetup[servo][2]):
-                        #Position >= End && Repeat
-                        #Position <= Start && Repeat
+                        print 'Position >= End && Repeat'
+                        print 'Position <= Start && Repeat'
                         self.MovementStatus[servo][1] *= -1.0
