@@ -9,6 +9,8 @@ import Queue
 import socket
 import time
 
+import ControlClasses
+
 class TcpReceiver(threading.Thread):
     '''
     Implements the receiving part of a TCP connection.
@@ -136,6 +138,12 @@ class TcpServer(threading.Thread):
             self.MyTcpReceiver = TcpReceiver(self.distip, self.distport, self.conn, self.handler)
             self.MyTcpReceiver.start()
             self.MyTcpSender.start()
+            
+            if self.handler != self.MyTcpSender:
+                try:
+                    self.handler.setForwardHandler(self.MyTcpSender)
+                except:
+                    pass
             
             self.MyTcpSender.join()
             self.MyTcpReceiver.join()

@@ -6,6 +6,8 @@ Created on 07.06.2014
 import threading
 import time
 
+import TcpClasses
+
 class MessageHandler(object):
     '''
     classdocs
@@ -21,6 +23,11 @@ class MessageHandler(object):
         self.Mover.start()
         
         self.Dummy = False
+        
+        self.ForwardHandler = None
+        
+    def setForwardHandler(self, ForwardHandler):
+        self.ForwardHandler = ForwardHandler
     
     def push(self, data):
         self.DirectPush = False
@@ -40,6 +47,8 @@ class MessageHandler(object):
                             self.Joint = self.Parts[1]
                             self.Angle = float(self.Parts[2])
                             self.ServoHandler.setAngle(self.Joint, self.Angle)
+                            if self.ForwardHandler != None:
+                                self.ForwardHandler.push("Joint "+self.Joint+" set to "+str(self.Angle))
                         except:
                             pass
                         self.Angle = 0.0
