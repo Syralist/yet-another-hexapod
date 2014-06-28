@@ -60,7 +60,7 @@ class MessageHandler(object):
                         self.Joint = ""
                     else:
                         if self.ForwardHandler != None:
-                            self.ForwardHandler.push("Joint "+self.Parts[2]+" does not exist")
+                            self.ForwardHandler.push("Joint "+self.Parts[1]+" does not exist")
                 elif self.Parts[0] == "moveJoint":
                     print self.Parts[1]
                     if self.Parts[1] == "set":
