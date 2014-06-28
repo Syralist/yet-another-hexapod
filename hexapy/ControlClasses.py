@@ -43,7 +43,7 @@ class MessageHandler(object):
                 self.Parts = Message.split()
                 if len(self.Parts) < 2:
                     if self.ForwardHandler != None:
-                        self.ForwardHandler.push("Message '"+str(self.Parts)+"' incomprehensible\n")
+                        self.ForwardHandler.push("Message '"+str(self.Parts)+"' malformed\n")
                     continue
                 if self.Parts[0] == "setJoint":
                     if self.Parts[1] in self.Servos:
@@ -92,9 +92,9 @@ class MessageHandler(object):
                                 self.ForwardHandler.push("Joint movement stopped\n")
                         except:
                             pass
-            else:
-                if self.ForwardHandler != None:
-                    self.ForwardHandler.push("Message '"+str(self.Parts)+"' incomprehensible\n")
+                else:
+                    if self.ForwardHandler != None:
+                        self.ForwardHandler.push("Message '"+str(self.Parts)+"' incomprehensible\n")
     
     def Exit(self):
         self.Mover.Exit()
