@@ -41,6 +41,10 @@ class MessageHandler(object):
             self.Message = ""
             for Message in self.Messages:
                 self.Parts = Message.split()
+                if len(self.Parts) < 2:
+                    if self.ForwardHandler != None:
+                        self.ForwardHandler.push("Message '"+str(self.Parts)+"' incomprehensible\n")
+                    continue
                 if self.Parts[0] == "setJoint":
                     if self.Parts[1] in self.Servos:
                         try:
@@ -63,24 +67,34 @@ class MessageHandler(object):
                                                        float(self.Parts[4]), 
                                                        bool(self.Parts[5]), 
                                                        bool(self.Parts[6]))
+                                if self.ForwardHandler != None:
+                                    self.ForwardHandler.push("Set joint movement for "+self.Parts[2]+" as "+self.Parts[3]+" to "+self.Parts[4]+"\n")
                             except:
                                 pass
                     elif self.Parts[1] == "init":
                         try:
                             self.Mover.InitMovement()
+                            if self.ForwardHandler != None:
+                                self.ForwardHandler.push("Joint movement initialized\n")
                         except:
                             pass
                     elif self.Parts[1] == "move":
                         try:
                             self.Mover.SetUpdate(True)
+                            if self.ForwardHandler != None:
+                                self.ForwardHandler.push("Joint movement started\n")
                         except:
                             pass
                     elif self.Parts[1] == "stop":
                         try:
                             self.Mover.SetUpdate(False)
+                            if self.ForwardHandler != None:
+                                self.ForwardHandler.push("Joint movement stopped\n")
                         except:
                             pass
-            pass
+            else:
+                if self.ForwardHandler != None:
+                    self.ForwardHandler.push("Message '"+str(self.Parts)+"' incomprehensible\n")
     
     def Exit(self):
         self.Mover.Exit()
