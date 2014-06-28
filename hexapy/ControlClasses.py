@@ -48,7 +48,7 @@ class MessageHandler(object):
                             self.Angle = float(self.Parts[2])
                             self.ServoHandler.setAngle(self.Joint, self.Angle)
                             if self.ForwardHandler != None:
-                                self.ForwardHandler.push("Joint "+self.Joint+" set to "+str(self.Angle))
+                                self.ForwardHandler.push("Joint "+self.Joint+" set to "+str(self.Angle)+"\n")
                         except:
                             pass
                         self.Angle = 0.0
