@@ -55,12 +55,12 @@ class MessageHandler(object):
                                 self.ForwardHandler.push("Joint "+self.Joint+" set to "+str(self.Angle)+"\n")
                         except:
                             if self.ForwardHandler != None:
-                                self.ForwardHandler.push("setJoint not successful")
+                                self.ForwardHandler.push("setJoint not successful\n")
                         self.Angle = 0.0
                         self.Joint = ""
                     else:
                         if self.ForwardHandler != None:
-                            self.ForwardHandler.push("Joint "+self.Parts[1]+" does not exist")
+                            self.ForwardHandler.push("Joint "+self.Parts[1]+" does not exist\n")
                 elif self.Parts[0] == "moveJoint":
                     print self.Parts[1]
                     if self.Parts[1] == "set":
@@ -75,10 +75,10 @@ class MessageHandler(object):
                                     self.ForwardHandler.push("Set joint movement for "+self.Parts[2]+" as "+self.Parts[3]+" to "+self.Parts[4]+"\n")
                             except:
                                 if self.ForwardHandler != None:
-                                    self.ForwardHandler.push("moveJoint set not successful")
+                                    self.ForwardHandler.push("moveJoint set not successful\n")
                         else:
                             if self.ForwardHandler != None:
-                                self.ForwardHandler.push("Joint "+self.Parts[2]+" does not exist")
+                                self.ForwardHandler.push("Joint "+self.Parts[2]+" does not exist\n")
                     elif self.Parts[1] == "init":
                         try:
                             self.Mover.InitMovement()
@@ -86,7 +86,7 @@ class MessageHandler(object):
                                 self.ForwardHandler.push("Joint movement initialized\n")
                         except:
                             if self.ForwardHandler != None:
-                                self.ForwardHandler.push("moveJoint init not successful")
+                                self.ForwardHandler.push("moveJoint init not successful\n")
                     elif self.Parts[1] == "move":
                         try:
                             self.Mover.SetUpdate(True)
