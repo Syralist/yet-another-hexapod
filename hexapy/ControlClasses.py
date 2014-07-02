@@ -101,6 +101,18 @@ class MessageHandler(object):
                                 self.ForwardHandler.push("Joint movement stopped\n")
                         except:
                             pass
+                elif self.Parts[0] == "timeJoint":
+                    if self.Parts[1] in self.Servos:
+                        try:
+                            self.ServoHandler.SetTimedMovement(self.Parts[1],
+                                                               float(self.Parts[2]),
+                                                               float(self.Parts[3]),
+                                                               bool(self.Parts[4]))
+                            if self.ForwardHandler != None:
+                                self.ForwardHandler.push("Joint "+self.Parts[1]+" set to "+self.Parts[2]+"in "+self.Parts[3]+"\n")
+                        except:
+                            if self.ForwardHandler != None:
+                                self.ForwardHandler.push("timeJoint not successful\n")
                 else:
                     if self.ForwardHandler != None:
                         self.ForwardHandler.push("Message '"+str(self.Parts)+"' incomprehensible\n")
