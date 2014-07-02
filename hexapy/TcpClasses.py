@@ -25,7 +25,7 @@ class TcpReceiver(threading.Thread):
         self.ip = ip
         self.port = port
         self.socket = socket
-        self.BUFFER_SIZE = 64
+        self.BUFFER_SIZE = 128
         self.handler = handler
         print 'Receiver connected to:', self.ip, self.port
         
