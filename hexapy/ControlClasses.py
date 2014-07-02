@@ -110,15 +110,20 @@ class MessageHandler(object):
         self.Mover.join()
     
 class MoveJoint(threading.Thread):
-    def __init__(self, ServoHandler):
+    def __init__(self, ServoHandler, ResponseHandler=None):
         threading.Thread.__init__(self)
         self.running = True
         self.doUpdate = False
+        self.doRespond = False
         
         self.ServoHandler = ServoHandler
+        self.ResponseHandler = ResponseHandler
         self.Servos = self.ServoHandler.getJoints()
         self.MovementSetup = {k: [0.0, 0.0, False, False] for k in self.Servos} #Start, End, Repeat, Move
-        self.MovementStatus = {k: [0.0, 0.0] for k in self.Servos} #Position, Direction
+        self.TimedMovementSetup = {k: [0.0, 0.0, False] for k in self.Servos} #Target, Time, Move
+        self.MovementStatus = {k: [0.0, 0.0, 0.0] for k in self.Servos} #Position, Direction, TimeRemaining
+        
+        self.CycleTime = 0.10 #cycle time in seconds
     
     def run(self):
         while self.running:
@@ -126,7 +131,7 @@ class MoveJoint(threading.Thread):
                 self.startTime = time.time()
                 self.UpdateJoints()
                 self.elapsedTime = time.time()-self.startTime
-                self.sleepTime = 0.10-self.elapsedTime
+                self.sleepTime = self.CycleTime-self.elapsedTime
                 print self.elapsedTime
                 if self.sleepTime < 0.0:
                     self.sleepTime = 0.0
@@ -138,6 +143,12 @@ class MoveJoint(threading.Thread):
     def SetUpdate(self, doUpdate):
         self.doUpdate = doUpdate
         
+    def SetResponseHandler(self, ResponseHandler):
+        self.ResponseHandler = ResponseHandler
+        
+    def SetRespond(self, DoRespond=True):
+        self.doRespond = DoRespond
+        
     def SetMovement(self, Joint, Start, End, Repeat, Move):
         if not self.doUpdate:
             try:
@@ -147,6 +158,16 @@ class MoveJoint(threading.Thread):
                 self.MovementSetup[Joint][3] = Move
             except:
                 pass
+            
+    def SetTimedMovement(self, Joint, Target, Time, Move):
+        try:
+            self.TimedMovementSetup[Joint][0] = Target
+            self.TimedMovementSetup[Joint][1] = Time
+            self.TimedMovementSetup[Joint][2] = Move
+            
+            self.MovementStatus[Joint][2] = Time
+        except:
+            pass
     
     def InitMovement(self):
         if not self.doUpdate:
@@ -170,7 +191,7 @@ class MoveJoint(threading.Thread):
         #print self.MovementStatus #Position, Direction/Increment
         for servo in self.Servos:
             #print servo
-            if self.MovementSetup[servo][3]:
+            if self.MovementSetup[servo][3]: #Joint has normal movement
                 #print 'Move = True'
                 self.MovementStatus[servo][0] += self.MovementStatus[servo][1]
                 self.ServoHandler.setAngle(servo,self.MovementStatus[servo][0])
@@ -192,3 +213,6 @@ class MoveJoint(threading.Thread):
                         #print 'Position >= End && Repeat'
                         #print 'Position <= Start && Repeat'
                         self.MovementStatus[servo][1] *= -1.0
+                        
+            else: #Joint has timed movement 
+                pass
