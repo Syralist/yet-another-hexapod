@@ -228,11 +228,11 @@ class MoveJoint(threading.Thread):
                         self.MovementStatus[servo][1] *= -1.0
                         
             else: #Joint has timed movement 
-                print self.MovementStatus[servo][2]
+                print "time "+str(self.MovementStatus[servo][2])
                 if self.MovementStatus[servo][2] > 0.0: #time remaining
                     if self.TimedMovementSetup[servo][0] > self.MovementStatus[servo][0]: #target more positive
-                        print self.TimedMovementSetup[servo][0]
-                        print self.MovementStatus[servo][0]
+                        print "target "+str(self.TimedMovementSetup[servo][0])
+                        print "position "+str(self.MovementStatus[servo][0])
                         self.MovementStatus[servo][0] += ((self.TimedMovementSetup[servo][0]-self.MovementStatus[servo][0])/(self.MovementStatus[servo][2]/self.CycleTime))
                         self.ServoHandler.setAngle(servo,self.MovementStatus[servo][0])
                         self.MovementStatus[servo][2] -= self.CycleTime
