@@ -104,13 +104,14 @@ class MessageHandler(object):
                 elif self.Parts[0] == "timeJoint":
                     if self.Parts[1] in self.Servos:
                         try:
-                            self.ServoHandler.SetTimedMovement(self.Parts[1],
+                            self.Mover.SetTimedMovement(self.Parts[1],
                                                                float(self.Parts[2]),
                                                                float(self.Parts[3]),
                                                                bool(self.Parts[4]))
                             if self.ForwardHandler != None:
                                 self.ForwardHandler.push("Joint "+self.Parts[1]+" set to "+self.Parts[2]+"in "+self.Parts[3]+"\n")
-                        except:
+                        except Exception, e:
+                            print e
                             if self.ForwardHandler != None:
                                 self.ForwardHandler.push("timeJoint not successful\n")
                 else:
@@ -178,8 +179,8 @@ class MoveJoint(threading.Thread):
             self.TimedMovementSetup[Joint][2] = Move
             
             self.MovementStatus[Joint][2] = Time
-        except:
-            pass
+        except Exception, e:
+            print e
     
     def InitMovement(self):
         if not self.doUpdate:
