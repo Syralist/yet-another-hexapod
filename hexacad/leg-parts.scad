@@ -89,7 +89,7 @@ module tibia()
 {
 	wall = 5;
 	servowidth = 20;
-	servolength = 41;
+	servolength = 42;
 	difference()
 	{
 		legconture();
